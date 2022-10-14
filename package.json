@@ -1,0 +1,34 @@
+{
+    "name": "serv_inder_users",
+    "version": "1.0.0",
+    "description": "Codigo serverless para reservas del inder",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "deploy": "aws s3 cp serv_inder_users.zip s3://andurmon-dev-bucket0002 && aws lambda update-function-code --function-name beach-voley-users --s3-bucket andurmon-dev-bucket0002 --s3-key serv_inder_users.zip",
+        "local": "cls && ts-node localTest.ts",
+        "build": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/andurmon/serv_inder_users.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/andurmon/serv_inder_users/issues"
+    },
+    "homepage": "https://github.com/andurmon/serv_inder_users#readme",
+    "devDependencies": {
+        "@types/aws-lambda": "^8.10.106",
+        "@types/node": "^12.20.55",
+        "ts-node": "^10.6.0",
+        "typescript": "4.7.4"
+    },
+    "dependencies": {
+        "aws-lambda": "^1.0.7",
+        "aws-sdk": "^2.505.0",
+        "dotenv": "^16.0.3",
+        "joi": "^17.6.0"
+    }
+}

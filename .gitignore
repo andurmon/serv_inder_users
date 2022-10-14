@@ -1,0 +1,16 @@
+node_modules
+
+
+lib/
+dist/
+outputs/
+localTest.ts
+localTest.*
+*.zip
+
+.env
+.env.txt
+
+.nyc_output/
+coverage/
+test-results.xml
