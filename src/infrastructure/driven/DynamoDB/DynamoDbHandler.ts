@@ -1,13 +1,15 @@
 import aws from "aws-sdk";
+import { ResponsePackage } from "../../../domain/models/models";
 import { Env } from "../../../utils/constants"
-
 
 export class DynamoDbHandler {
 
+    protected dynamoClient: aws.DynamoDB.DocumentClient
     protected dynamodb: aws.DynamoDB;
     protected tableName: string;
 
     constructor() {
+        this.dynamoClient = new aws.DynamoDB.DocumentClient({ region: Env.REGION });
         this.dynamodb = new aws.DynamoDB({ region: Env.REGION });
         this.tableName = Env.USERS_TABLE;
     }
@@ -50,45 +52,21 @@ export class DynamoDbHandler {
     /**
      * @returns
      */
-    async batchGetItems() {
+    async batchGetItems(): Promise<ResponsePackage> {
+        try {
 
-        let params = {
-            RequestItems: {
-                [this.tableName]: {
-                    Keys: [
-                        // {
-                        //     "Artist": {
-                        //         S: "No One You Know"
-                        //     },
-                        //     "SongTitle": {
-                        //         S: "Call Me Today"
-                        //     }
-                        // },
-                        // {
-                        //     "Artist": {
-                        //         S: "Acme Band"
-                        //     },
-                        //     "SongTitle": {
-                        //         S: "Happy Day"
-                        //     }
-                        // },
-                        // {
-                        //     "Artist": {
-                        //         S: "No One You Know"
-                        //     },
-                        //     "SongTitle": {
-                        //         S: "Scared of My Shadow"
-                        //     }
-                        // }
-                    ],
-                    // ProjectionExpression: "AlbumTitle"
-                }
+            let params: aws.DynamoDB.ScanInput = {
+                TableName: this.tableName,
+                // FilterExpression: ""
             }
-        };
 
-        console.log('params: ', params);
+            const scan = await this.dynamoClient.scan(params).promise();
 
-        return await this.dynamodb.batchGetItem(params).promise();
+            return { statusCode: 200, data: scan, message: "" };
+        } catch (error) {
+            return { statusCode: 500, data: {}, message: error.message };
+        }
+
     }
 
 }

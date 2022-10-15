@@ -63,7 +63,7 @@ export const handler = async (event: APIGatewayProxyEvent, context?: Context): P
         console.log('error: ', error);
         return responseAdapter({
             statusCode: 500,
-            message: "Somre rror ocurred",
+            message: error?.message ?? "Somre rror ocurred",
             data: {}
         });
 

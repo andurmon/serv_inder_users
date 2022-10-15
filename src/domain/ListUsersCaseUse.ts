@@ -14,11 +14,9 @@ export default class ListUserCaseUse {
     async caseUseExecute(request: CaseUseRequestModel): Promise<ResponsePackage> {
         console.log('request: ', request);
 
-        return {
-            statusCode: 503,
-            message: "Method not yet implemented !",
-            data: {}
-        };
+        const listItems = await this.dynamoHandler.batchGetItems();
+
+        return listItems;
     }
 }
 
