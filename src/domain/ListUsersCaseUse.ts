@@ -1,6 +1,6 @@
 import { DynamoDbHandler } from "../infrastructure/driven/DynamoDB/DynamoDbHandler";
 // import { Env } from "../utils/constants";
-import { CaseUseRequestModel, ResponsePackage } from "./models/models";
+import { ResponsePackage } from "./models/models";
 
 
 export default class ListUserCaseUse {
@@ -11,11 +11,8 @@ export default class ListUserCaseUse {
         this.dynamoHandler = dynamoHandler;
     }
 
-    async caseUseExecute(request: CaseUseRequestModel): Promise<ResponsePackage> {
-        console.log('request: ', request);
-
+    async caseUseExecute(): Promise<ResponsePackage> {
         const listItems = await this.dynamoHandler.batchGetItems();
-
         return listItems;
     }
 }
