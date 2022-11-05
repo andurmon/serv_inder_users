@@ -4,12 +4,6 @@ export interface Cuenta {
     docType: "CC" | "TI" | "CE";
     guests: AthletesList[]
 }
-
-export interface CaseUseRequestModel {
-    userList: Cuenta[];
-    initTime: string;
-}
-
 export interface ResponsePackage {
     statusCode: number;
     message: string;
@@ -19,4 +13,19 @@ export interface ResponsePackage {
 export interface AthletesList {
     document: string;
     docType: "CC" | "TI" | "CE";
+}
+
+export interface CaseUseRequestModel {
+    userList: Cuenta[];
+    initTime: string;
+}
+
+export interface CaseUseRequestModel {
+    userList: Cuenta[];
+    initTime: string;
+}
+
+export interface UpdUsersRequestModel {
+    document: string;
+    available: boolean
 }

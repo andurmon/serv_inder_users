@@ -1,5 +1,5 @@
 import { DynamoDbHandler } from "../infrastructure/driven/DynamoDB/DynamoDbHandler";
-import { CaseUseRequestModel, ResponsePackage } from "./models/models";
+import { UpdUsersRequestModel, ResponsePackage } from "./models/models";
 
 
 export default class UpdUserCaseUse {
@@ -10,15 +10,9 @@ export default class UpdUserCaseUse {
         this.dynamoDbHandler = s3Manager;
     }
 
-    async caseUseExecute(request: CaseUseRequestModel): Promise<ResponsePackage> {
-        console.log('request: ', request);
-
-        return {
-            statusCode: 503,
-            message: "Method not yet implemented !",
-            data: {}
-        };
-
+    async caseUseExecute(request: UpdUsersRequestModel): Promise<ResponsePackage> {
+        const updateItem = await this.dynamoDbHandler.putItem(request.document, request.available);
+        return updateItem;
     }
 }
 

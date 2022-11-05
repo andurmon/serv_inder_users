@@ -1,6 +1,7 @@
 import aws from "aws-sdk";
 import { ResponsePackage } from "../../../domain/models/models";
 import { Env } from "../../../utils/constants"
+import { LogHandler } from "../../../utils/Logging";
 
 export class DynamoDbHandler {
 
@@ -36,17 +37,28 @@ export class DynamoDbHandler {
      * @param list 
      * @returns 
      */
-    async putItem(item: any) {
+    async putItem(document: string, available: boolean): Promise<ResponsePackage> {
+        try {
+            const params = {
+                TableName: this.tableName,
+                Key: { document: document },
+                UpdateExpression: 'set #col = :valor',
+                ConditionExpression: 'document = :document',
+                ExpressionAttributeNames: { '#col': 'available' },
+                ExpressionAttributeValues: {
+                    ':valor': available,
+                    ':document': document
+                }
+            };
 
-        let params = {
-            Item: item,
-            ReturnConsumedCapacity: "TOTAL",
-            TableName: this.tableName
+            const upd = await this.dynamoClient.update(params).promise();
+            LogHandler.integrationMessage(params, upd, "Dynamo Upd", "Response to update item in Dynamo")
+            return { statusCode: 200, data: upd, message: "todo melo" };
+
+        } catch (error) {
+            LogHandler.integrationMessage(document, error, "Error during Dynamo DB item update", "Response to update item in Dynamo")
+            return { statusCode: 500, data: {}, message: error.message };
         }
-
-        console.log('params: ', params);
-
-        return await this.dynamodb.putItem(params).promise();
     }
 
     /**

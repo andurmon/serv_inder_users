@@ -4,20 +4,17 @@ import { AddUsersAdapter } from "./infrastructure/driving/AddUsersAdapter";
 import { ListUsersAdapter } from "./infrastructure/driving/ListUsersAdapter";
 import { UpdUsersAdapter } from "./infrastructure/driving/UpdUsersAdapter";
 
-
-
 export const handler = async (event: APIGatewayProxyEvent, context?: Context): Promise<APIGatewayProxyResult> => {
     try {
         if (context) {
             console.log(context);
         }
-        console.log('event: ', event);
 
         if (!event.httpMethod) return responseAdapter({ statusCode: 400, message: "httpMethod is null or undefined", data: {} });
 
         switch (event.httpMethod) {
             case "GET":
-                return await ListUsersAdapter();
+                return await ListUsersAdapter(event);
             case "POST":
                 return await AddUsersAdapter(event);
             case "PUT":
@@ -28,7 +25,6 @@ export const handler = async (event: APIGatewayProxyEvent, context?: Context): P
 
 
     } catch (error) {
-        console.log('error: ', error);
         return responseAdapter({
             statusCode: 500,
             message: error?.message ?? "Somre rror ocurred",
